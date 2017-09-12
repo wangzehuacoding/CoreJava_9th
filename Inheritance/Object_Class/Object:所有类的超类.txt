@@ -1,0 +1,9 @@
+可以使用Object类型的变量引用任何类型的对象
+Object obj = new Employee("Harry",35000);
+Object类型的变量只能用于各种值得通用持有者,要相对其中的内容具体操作,还需要弄清楚对象的原始类型,并且进行相应的类型转换:
+Employee e = (Employee) obj;
+在JAVA中,只有基本类型(primitive types)不是对象-数值 字符 布尔类型的值都不是对象
+所有的数组类型-对象数组或者是基本数组都宽展于Object类
+Employee[] staff = new Employee[10];
+obj = staff; //ok
+obj = new int[10] //ok
