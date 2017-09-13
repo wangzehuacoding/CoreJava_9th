@@ -1,0 +1,17 @@
+//Object中的toString方法，用于返回表示对象值的字符串。
+//Point类的toString方法返回字符串:java.awt.Point[x=10,y=20]
+//Employee中的toString方法的实现:
+public String toString()
+{
+  return getClass().getName() + "[name=" + name + ",salary=" + salary + ",hireDay=" + hireDay + "]" ;
+}
+//子类也要有自己的toString方法，并且添加子类域的描述
+class Manager extends Employee
+{
+  ...
+  public String toString()
+  {
+    return super.toString() + "[bonus=" + bonus + "]";
+  }
+  
+}
