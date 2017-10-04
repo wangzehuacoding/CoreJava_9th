@@ -1,0 +1,54 @@
+import java.io.*;
+import java.net.*;
+
+public class UDPFileSender {
+  public static void main(String args[]) throws Exception {
+
+
+//Get the remote server address, port and name of file to send over UDP
+  final String hostName = args[0];
+  final int port = Integer.parseInt(args[1]);
+  final String fileName = args[2];
+
+  SendFile(hostName,port,fileName);
+}
+
+public static void SendFile(String hostName, int port, String fileName) throws IOException
+{
+  //Create the client socket set the IP address and get the file to SendFile
+  DatagramSocket socket = new DatagramSocket();
+  InetAddress address = InetAddress.getByName(hostName);
+  File file = new File(fileName);
+
+  //Create the Byte Array to store the file stream
+  InputStream inFromFile = new FileInputStream(file);
+  //initialte the byte Array
+  byte[] fileByteArray = new byte[(int)file.length()];
+  //make the file stream to store in the fileByteArray
+  inFromFile.read(fileByteArray);
+
+  //use the sequence number to show the process
+  int sequenceNumber = 0;
+  //set each message that to be sent 1KB = 1024 byte
+  for(int i=0; i< fileByteArray.length; i = i + 1)
+    {
+        byte[] message = new byte[1];
+        message[0] = fileByteArray[i];
+        sequenceNumber += 1;
+        //send the message
+        DatagramPacket sendPacket = new DatagramPacket(message,message.length,address,port);
+        socket.send(sendPacket);
+        System.out.println("Sent: Sequence Numnber : " + sequenceNumber + "has been sent");
+
+        try{
+          Thread.sleep(1);
+        }
+        catch(InterruptedException e)
+        {
+          e.printStackTrace();
+        }
+      }
+      socket.close();
+      System.out.println("File" + fileName + "has been sent");
+    }
+}

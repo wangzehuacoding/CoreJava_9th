@@ -1,0 +1,49 @@
+import java.io.*;
+import java.net.*;
+
+public class UDPFileReceiver {
+
+  public static void main(String args[]) throws Exception{
+    System.out.println("Ready to receive the file!");
+    final int port = Integer.parseInt(args[0]);
+    final String fileName = args[1];
+
+    ReceiveFile(port,fileName);
+  }
+
+  public static void ReceiveFile(int port, String fileName) throws IOException {
+      //Create the socket to receive the file
+      DatagramSocket socket = new DatagramSocket(port);
+      InetAddress address;
+      File file = new File(fileName);
+      FileOutputStream outToFile = new FileOutputStream(file);
+
+      //set the sequence number to show the procedure
+      int sequenceNumber = 0;
+
+      //receive each message
+      while(true)
+      {
+
+        //create byte array message to receive data
+        byte[] message = new byte[1];
+
+        //Receive packet and retrive message
+        DatagramPacket receivePacket = new DatagramPacket(message,message.length);
+        socket.receive(receivePacket);
+        message = receivePacket.getData();
+
+        sequenceNumber = sequenceNumber + 1;
+
+        if(message == null) break;
+
+        outToFile.write(message);
+        System.out.println("Received" + sequenceNumber + "bytes");
+
+      }
+        socket.close();
+        System.out.println("File" + fileName + " has been Received");
+
+  }
+
+}
