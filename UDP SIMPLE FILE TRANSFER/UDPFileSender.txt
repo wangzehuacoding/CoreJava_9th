@@ -52,3 +52,4 @@ public static void SendFile(String hostName, int port, String fileName) throws I
       System.out.println("File" + fileName + "has been sent");
     }
 }
+//这种方法非常的损耗硬盘 需要改进每个UDP数据包的大小
